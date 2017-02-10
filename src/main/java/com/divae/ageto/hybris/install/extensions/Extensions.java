@@ -9,6 +9,7 @@ import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.divae.ageto.hybris.utils.HybrisConstants;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 
@@ -31,7 +32,7 @@ public enum Extensions {
 
         try {
             final File hybrisPlatformDirectory = new File(hybrisInstallDirectory, "bin/platform");
-            final File platformExtensionsFile = new File(hybrisPlatformDirectory, "extensions.xml");
+            final File platformExtensionsFile = new File(hybrisPlatformDirectory, HybrisConstants.HYBRIS_EXTENSIONS_XML);
             final FileBasedConfigurationBuilder<XMLConfiguration> builder = new FileBasedConfigurationBuilder<>(
                     XMLConfiguration.class).configure(new Parameters().xml().setFile(platformExtensionsFile));
             final XMLConfiguration platformExtensionsConfiguration = builder.getConfiguration();

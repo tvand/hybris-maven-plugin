@@ -1,6 +1,6 @@
 package com.divae.ageto.hybris.install.extensions;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.io.File;
 import java.util.Set;
@@ -22,7 +22,8 @@ public class ExtensionFactoryIT {
     public void getExtensionsFromPlatformTest() {
         final File hybrisInstallationDirectory = EnvironmentUtils.getHybrisInstallationDirectory();
         final Set<Extension> extensions = ExtensionFactory.getExtensions(hybrisInstallationDirectory);
-        assertEquals(extensions.size(), 70);
+        assertTrue(extensions.size() > 0);
+        LOGGER.trace(String.format("Extensions found: %d", extensions.size()));
 
         if (LOGGER.isTraceEnabled()) {
             for (final Extension extension : extensions) {
@@ -30,7 +31,9 @@ public class ExtensionFactoryIT {
             }
         }
 
-        assertEquals(ExtensionFactory.getTransitiveExtensions(extensions).size(), 70);
+        Set<Extension> transitiveExtensions = ExtensionFactory.getTransitiveExtensions(extensions);
+        assertTrue(transitiveExtensions.size() > 0);
+        LOGGER.trace(String.format("Transitive extensions found: %d", transitiveExtensions.size()));
     }
 
     private void printExtension(Extension extension, String indent) {

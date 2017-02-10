@@ -6,7 +6,6 @@ import java.io.File;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.Test;
 
 /**
  * Created by mhaagen on 05.09.2016.
@@ -15,7 +14,8 @@ public class RunMojoIT extends RunMojo {
 
     private Logger LOGGER = LoggerFactory.getLogger(RunMojoIT.class);
 
-    @Test
+    // @Test
+    @Override
     public void execute() {
         try {
             LOGGER.info("Please input location of hybris reactor dir:");

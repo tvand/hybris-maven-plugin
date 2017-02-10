@@ -12,7 +12,6 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
 import org.testng.collections.Sets;
 
 import com.divae.ageto.hybris.AbstractTempDirectoryTests;
@@ -77,7 +76,7 @@ public class HybrisFakeStructureTest extends AbstractTempDirectoryTests {
         }
     }
 
-    @Test
+    // @Test
     public void generate() throws Exception {
         for (final File file : dummyFiles) {
             LOGGER.debug(

@@ -6,14 +6,19 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.project.MavenProject;
 
 import com.divae.ageto.hybris.install.extensions.Extension;
+import com.divae.ageto.hybris.utils.HybrisConstants;
 import com.divae.ageto.hybris.utils.Utils;
 
 /**
  * Created by mhaagen on 05.09.2016.
  */
 public class RunMojo extends AbstractMojo {
+
+    @Parameter(defaultValue = "${project}", readonly = true)
+    private MavenProject project;
 
     @Parameter(property = "hybris.workDirectory", defaultValue = ".")
     private String workDirectory;
@@ -24,8 +29,10 @@ public class RunMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
+        System.out.println(project.getModel().getBuild().getDirectory());
+        
         final File hybrisReactorDir = new File(workDirectory);
-        final File hybrisFakeDir = new File(hybrisReactorDir, "target/hybris-fake/hybris");
+        final File hybrisFakeDir = new File(hybrisReactorDir, HybrisConstants.HYBRIS_FAKE_DIRECTORY);
         final File platformDirectory = new File(hybrisFakeDir, "bin/platform");
 
         Utils.createSymLink(new File(platformDirectory, "pom.xml"), new File(hybrisReactorDir, "pom.xml"));

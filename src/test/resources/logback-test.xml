@@ -6,7 +6,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.divae.ageto.hybris" level="debug"/>
+    <logger name="com.divae.ageto.hybris" level="info"/>
     <logger name="com.strobel" level="error"/>
 
     <root level="warn">

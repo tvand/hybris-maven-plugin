@@ -62,3 +62,6 @@ fabric.properties
 /targetDirectory
 target/
 velocity.log
+/.classpath
+/.project
+/.settings/
