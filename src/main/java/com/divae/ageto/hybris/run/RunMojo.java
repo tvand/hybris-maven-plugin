@@ -13,6 +13,8 @@ import com.divae.ageto.hybris.utils.HybrisConstants;
 import com.divae.ageto.hybris.utils.Utils;
 
 /**
+ * Create symbolic links between original Hybris installation and Maven reactor structure
+ *  
  * Created by mhaagen on 05.09.2016.
  */
 public class RunMojo extends AbstractMojo {

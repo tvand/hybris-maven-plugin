@@ -9,6 +9,8 @@ import org.apache.maven.plugins.annotations.Mojo;
 import com.divae.ageto.hybris.AbstractHybrisDirectoryMojo;
 
 /**
+ * Output the version information of the Hybris commerce suite
+ * 
  * @author Klaus Hauschild
  */
 @Mojo(name = "version", requiresProject = false)

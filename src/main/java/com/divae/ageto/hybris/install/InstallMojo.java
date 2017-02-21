@@ -10,6 +10,8 @@ import org.apache.maven.plugins.annotations.Parameter;
 import com.divae.ageto.hybris.AbstractHybrisDirectoryMojo;
 
 /**
+ * Build a hybris installation on a dedicated build server and copy the resulting class files to the productive system
+ * 
  * @author Klaus Hauschild
  */
 @Mojo(name = "install", requiresProject = false)

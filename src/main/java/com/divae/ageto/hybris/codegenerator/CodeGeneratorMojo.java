@@ -9,6 +9,9 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 /**
+ * The code-generator goal generates the classes needed for a Hybris instance, namely
+ * the Model classes out of the <code>*-items.xml</code> files.
+ * 
  * @author Klaus Hauschild
  */
 @Mojo(name = "code-generator", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
