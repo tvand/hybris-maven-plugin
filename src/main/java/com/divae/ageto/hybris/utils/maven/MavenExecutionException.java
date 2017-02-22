@@ -5,6 +5,9 @@ package com.divae.ageto.hybris.utils.maven;
  */
 class MavenExecutionException extends RuntimeException {
 
+    /** Serial version */
+    private static final long serialVersionUID = -5411124737349972605L;
+
     MavenExecutionException() {
         super();
     }

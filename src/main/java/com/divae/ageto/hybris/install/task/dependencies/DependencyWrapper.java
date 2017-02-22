@@ -9,6 +9,9 @@ import org.apache.maven.model.Dependency;
  */
 public class DependencyWrapper extends Dependency {
 
+    /** Serial version */
+    private static final long serialVersionUID = -1787586399767282279L;
+    
     private final Dependency dependency;
     private final String     artifactId;
     private final String     groupId;
