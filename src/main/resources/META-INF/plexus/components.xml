@@ -1,0 +1,38 @@
+<component-set>
+    <components>
+        <component>
+            <role>org.apache.maven.lifecycle.mapping.LifecycleMapping</role>
+            <role-hint>hyx</role-hint>
+            <implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping</implementation>
+            <configuration>
+                <phases>
+                    <clean>com.divae.ageto:hybris-maven-plugin:clean</clean>
+                    <process-resources>org.apache.maven.plugins:maven-resources-plugin:resources</process-resources>
+                    <generate-sources>com.divae.ageto:hybris-maven-plugin:code-generate</generate-sources>
+                    <compile>org.apache.maven.plugins:maven-compiler-plugin:compile</compile>
+                    <process-test-resources>org.apache.maven.plugins:maven-resources-plugin:testResources</process-test-resources>
+                    <test-compile>org.apache.maven.plugins:maven-compiler-plugin:testCompile</test-compile>
+                    <test>org.apache.maven.plugins:maven-surefire-plugin:test</test>
+                    <package>com.divae.ageto:hybris-maven-plugin:hyx</package>
+                    <!-- verify>com.divae.ageto:hybris-maven-plugin:hyx-verify</verify -->
+                    <install>org.apache.maven.plugins:maven-install-plugin:install</install>
+                    <deploy>org.apache.maven.plugins:maven-deploy-plugin:deploy</deploy>
+                </phases>
+            </configuration>
+        </component>
+        <component>
+            <role>org.apache.maven.artifact.handler.ArtifactHandler</role>
+            <role-hint>hyx</role-hint>
+            <implementation>org.apache.maven.artifact.handler.DefaultArtifactHandler</implementation>
+            <configuration>
+                <type>hyx</type>
+                <extension>hyx</extension>
+                <packaging>hyx</packaging>
+                <language>java</language>
+                <addedToClasspath>false</addedToClasspath>
+                <includesDependencies>true</includesDependencies>
+                <classifier/>
+            </configuration>
+        </component>
+    </components>
+</component-set>

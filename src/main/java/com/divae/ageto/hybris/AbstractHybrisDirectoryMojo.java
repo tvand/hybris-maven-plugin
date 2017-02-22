@@ -8,13 +8,38 @@ import org.apache.maven.plugins.annotations.Parameter;
 /**
  * @author Klaus Hauschild
  */
-public abstract class AbstractHybrisDirectoryMojo extends AbstractMojo {
+public abstract class AbstractHybrisDirectoryMojo extends AbstractMojo
+{
 
+    /**
+     * The platform directory of the Hybris commerce suite
+     */
     @Parameter(property = "hybris.hybrisDirectory", defaultValue = ".")
     private File hybrisDirectory;
 
-    protected File getHybrisDirectory() {
+    /**
+     * The project root directory
+     */
+    @Parameter(defaultValue = "${basedir}", readonly = true, required = true)
+    private File projectRootDir;
+
+    /**
+     * Get the Hybris platform directory
+     * 
+     * @return a File object
+     */
+    protected File getHybrisDirectory()
+    {
         return hybrisDirectory;
     }
 
+    /**
+     * Get the project root directory
+     * 
+     * @return a File object
+     */
+    protected File getBaseDirectory()
+    {
+        return projectRootDir;
+    }
 }

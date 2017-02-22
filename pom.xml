@@ -58,6 +58,21 @@
             <version>3.4</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.maven.shared</groupId>
+            <artifactId>maven-filtering</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-archiver</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.shared</groupId>
+            <artifactId>maven-mapping</artifactId>
+            <version>3.0.0</version>
+        </dependency>
         <!-- /maven plugin api -->
 
         <!-- embedded maven -->
@@ -169,6 +184,21 @@
             <scope>test</scope>
         </dependency>
         <!-- /REST processing -->
+        
+        <!-- Hybris code generator dependencies -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.7</version>
+            <scope>runtime</scope>
+        </dependency>
+        
     </dependencies>
 
     <properties>

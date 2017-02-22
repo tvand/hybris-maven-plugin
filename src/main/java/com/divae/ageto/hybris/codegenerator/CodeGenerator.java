@@ -10,33 +10,48 @@ import com.google.common.base.Throwables;
 
 /**
  * @author Klaus Hauschild
+ * @author tv@apache.org
  */
-class CodeGenerator {
-
-    static void generate(final File hybrisReactorDir) {
-        final File hybrisFakeDirectory = HybrisFakeStructure.generate(hybrisReactorDir);
-        invokeBootstrapCodeGenerator(hybrisFakeDirectory);
-        createModelsArtifacts(hybrisFakeDirectory, hybrisReactorDir);
+class CodeGenerator
+{
+    static void generate(final File hybrisReactorDir, final File hybrisDirPlatform, final ClassLoader hybrisClassLoader)
+    {
+        // final File hybrisFakeDirectory = HybrisFakeStructure.generate(hybrisReactorDir);
+        invokeBootstrapCodeGenerator(hybrisReactorDir, hybrisDirPlatform, hybrisClassLoader);
+        // createModelsArtifacts(hybrisDirPlatform, hybrisReactorDir);
     }
 
-    private static void createModelsArtifacts(final File hybrisFakeDirectory, final File hybrisReactorDir) {
-        try {
-            FileUtils.copyDirectory(new File(hybrisFakeDirectory, "bootstrap/gensrc"),
+    private static void createModelsArtifacts(final File hybrisDirPlatform, final File hybrisReactorDir)
+    {
+        try
+        {
+            FileUtils.copyDirectory(new File(hybrisDirPlatform, "bootstrap/gensrc"),
                     new File(hybrisReactorDir, "models/src/main/java"));
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             throw new RuntimeException(
-                    String.format("Unable to copy files from [%s] to [%s]", hybrisFakeDirectory, hybrisReactorDir), e);
+                    String.format("Unable to copy files from [%s] to [%s]", hybrisDirPlatform, hybrisReactorDir), e);
         }
     }
 
-    private static void invokeBootstrapCodeGenerator(final File hybrisFakeDirectory) {
-        try {
-            final Class<?> bootstrapCodeGeneratorClass = Class.forName("de.hybris.bootstrap.codegenerator.CodeGenerator");
+    public static void invokeBootstrapCodeGenerator(final File hybrisReactorDir, final File hybrisDirPlatform, final ClassLoader hybrisClassLoader)
+    {
+        try
+        {
+            System.setProperty("platform.extensions.scan.dirs", hybrisReactorDir.getAbsolutePath());
+            System.setProperty("platform.extensions.scan.maxdepth", "0");
+            System.setProperty("platform.extensions.autoload", "false");
+            
+            final Class<?> bootstrapCodeGeneratorClass = 
+                    Class.forName("de.hybris.bootstrap.codegenerator.CodeGenerator", true, hybrisClassLoader);
             final Method mainMethod = bootstrapCodeGeneratorClass.getMethod("main", String[].class);
-            mainMethod.invoke(null, new Object[] { new String[] { hybrisFakeDirectory.toString() } });
-        } catch (final Exception exception) {
+            
+            mainMethod.invoke(null, new Object[] { new String[] { hybrisDirPlatform.toString() } });
+        }
+        catch (final Exception exception)
+        {
             throw Throwables.propagate(exception);
         }
     }
-
 }
