@@ -40,7 +40,7 @@ class CodeGenerator
         try
         {
             System.setProperty("platform.extensions.scan.dirs", hybrisReactorDir.getAbsolutePath());
-            System.setProperty("platform.extensions.scan.maxdepth", "0");
+            System.setProperty("platform.extensions.scan.maxdepth", "1");
             System.setProperty("platform.extensions.autoload", "false");
             
             final Class<?> bootstrapCodeGeneratorClass = 

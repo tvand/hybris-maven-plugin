@@ -24,13 +24,13 @@ import org.apache.maven.shared.filtering.MavenFilteringException;
 import org.apache.maven.shared.filtering.MavenResourcesExecution;
 import org.apache.maven.shared.filtering.MavenResourcesFiltering;
 import org.apache.maven.shared.mapping.MappingUtils;
+import org.apache.maven.shared.utils.StringUtils;
+import org.apache.maven.shared.utils.io.FileUtils;
 import org.apache.maven.shared.utils.io.FileUtils.FilterWrapper;
 import org.codehaus.plexus.archiver.Archiver;
 import org.codehaus.plexus.archiver.ArchiverException;
 import org.codehaus.plexus.archiver.jar.JarArchiver;
 import org.codehaus.plexus.interpolation.InterpolationException;
-import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.StringUtils;
 
 import com.divae.ageto.hybris.AbstractHybrisDirectoryMojo;
 import com.divae.ageto.hybris.utils.ClassesPackager;
@@ -233,10 +233,11 @@ public class HyxMojo extends AbstractHybrisDirectoryMojo
         final File hyxBinFile = new File(hyxTargetBinDirectory, hyxFilename.toString() + ".jar");
 
         getLog().info("Copying resources");
-        int fileCount = copyFiles(hyxResourceDirectory, hyxTargetResourcesDirectory);
-        fileCount += copyFiles(hyxWebDirectory, hyxTargetWebDirectory);
-        fileCount += copyFiles(hyxHMCDirectory, hyxTargetHMCDirectory);
-        getLog().info(fileCount + " resources copied.");
+        int fileCount = 0;
+        fileCount += copyFiles(hyxResourceDirectory, hyxTargetResourcesDirectory, "**", null);
+        fileCount += copyFiles(hyxWebDirectory, hyxTargetWebDirectory, null, "src/**,webroot/WEB-INF/classes/**");
+        fileCount += copyFiles(hyxHMCDirectory, hyxTargetHMCDirectory, null, "bin/**,src/**,classes/**");
+        getLog().info(fileCount + " files copied");
 
         // create the classes to be attached
         final File classesDirectory = new File(outputDirectory, "classes");
@@ -290,11 +291,13 @@ public class HyxMojo extends AbstractHybrisDirectoryMojo
      *
      * @param source The source directory.
      * @param destination The destination directory.
+     * @param includes ant include patterns, comma separated
+     * @param excludes ant exclude patterns, comma separated
      * @return number of files copied
      * @throws MojoExecutionException If there was an error during the recursive
      *         copying or filtering.
      */
-    private int copyFiles(final File source, final File destination) throws MojoExecutionException
+    private int copyFiles(final File source, final File destination, String includes, String excludes) throws MojoExecutionException
     {
         int fileCount = 0;
 
@@ -304,25 +307,21 @@ public class HyxMojo extends AbstractHybrisDirectoryMojo
             {
                 throw new MojoExecutionException("Could not create directory: " + destination.getAbsolutePath());
             }
-            for (final File sourceItem : source.listFiles())
+            for (final String sourceFileName : FileUtils.getFileAndDirectoryNames(source, includes, excludes, false, true, true, false))
             {
-                final File destinationItem = new File(destination, sourceItem.getName());
-                if (sourceItem.isDirectory())
+                final File destinationItem = new File(destination, sourceFileName);
+                final File sourceItem = new File(source, sourceFileName);
+                getLog().debug("Copy " + sourceItem + " to " + destinationItem);
+                System.out.println("Copy " + sourceItem + " to " + destinationItem);
+                fileCount++;
+
+                if (filtering && !isNonFilteredExtension(sourceItem.getName()))
                 {
-                    fileCount += copyFiles(sourceItem, destinationItem);
+                    mavenFileFilter.copyFile(sourceItem, destinationItem, true, getFilterWrappers(), null);
                 }
                 else
                 {
-                    fileCount++;
-
-                    if (filtering && !isNonFilteredExtension(sourceItem.getName()))
-                    {
-                        mavenFileFilter.copyFile(sourceItem, destinationItem, true, getFilterWrappers(), null);
-                    }
-                    else
-                    {
-                        FileUtils.copyFile(sourceItem, destinationItem);
-                    }
+                    FileUtils.copyFile(sourceItem, destinationItem);
                 }
             }
         }
@@ -439,7 +438,7 @@ public class HyxMojo extends AbstractHybrisDirectoryMojo
                         String type = artifact.getType();
                         if ("hyx".equals(type))
                         {
-                            // handle special case, write to extensions.xml
+                            // TODO: handle special case, write to extensions.xml
                         }
                         else if ("jar".equals(type) || "test-jar".equals(type) || "bundle".equals(type))
                         {
