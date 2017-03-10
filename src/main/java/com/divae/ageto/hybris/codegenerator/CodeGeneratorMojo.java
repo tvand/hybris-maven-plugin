@@ -15,6 +15,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 import com.divae.ageto.hybris.AbstractHybrisDirectoryMojo;
+import com.divae.ageto.hybris.utils.HybrisConstants;
 
 /**
  * The code-generator goal generates the classes needed for a Hybris instance,
@@ -31,12 +32,6 @@ class CodeGeneratorMojo extends AbstractHybrisDirectoryMojo
     @Parameter(defaultValue = "${project}", readonly = true, required = true)
     private MavenProject project;
 
-    /**
-     * The target directory for Hybris generated classes
-     */
-    @Parameter(defaultValue = "${basedir}/gensrc", readonly = true, required = true)
-    private File targetGenSrcDir;
-    
     /* Code generator dependencies not available in Maven Repository */
     private static final String[] JAR_FILES = {
             "/bootstrap/bin/ybootstrap.jar",
@@ -52,7 +47,6 @@ class CodeGeneratorMojo extends AbstractHybrisDirectoryMojo
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException
     {
-        
         // Save models.jar if it exists
         final File models_jar = new File(getHybrisDirectory(), MODEL_FILE_NAME);
         final File models_jar_bak = new File(getHybrisDirectory(), MODEL_FILE_NAME + ".bak");
@@ -72,9 +66,10 @@ class CodeGeneratorMojo extends AbstractHybrisDirectoryMojo
         try
         {
             ClassLoader hybrisClassLoader = getHybrisClassLoader(getHybrisDirectory());
-            System.setProperty("platform.extensions", project.getArtifactId());
+            System.setProperty("platform.extensions", getExtensionName());
             CodeGenerator.generate(getBaseDirectory(), getHybrisDirectory(), hybrisClassLoader);
-            project.addCompileSourceRoot(targetGenSrcDir.toString());
+            File targetGenSrcDir = new File(getBaseDirectory(), HybrisConstants.HYBRIS_GENSRC_DIRECTORY);
+            project.addCompileSourceRoot(targetGenSrcDir.getAbsolutePath());
         }
         catch (final Exception exception)
         {

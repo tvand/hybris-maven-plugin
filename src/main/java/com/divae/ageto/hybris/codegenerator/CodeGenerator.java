@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 
 import org.apache.commons.io.FileUtils;
 
+import com.divae.ageto.hybris.utils.HybrisConstants;
 import com.google.common.base.Throwables;
 
 /**
@@ -25,8 +26,8 @@ class CodeGenerator
     {
         try
         {
-            FileUtils.copyDirectory(new File(hybrisDirPlatform, "bootstrap/gensrc"),
-                    new File(hybrisReactorDir, "models/src/main/java"));
+            FileUtils.copyDirectory(new File(hybrisDirPlatform, HybrisConstants.HYBRIS_BOOTSTRAP_DIRECTORY + File.pathSeparator + HybrisConstants.HYBRIS_GENSRC_DIRECTORY),
+                    new File(hybrisReactorDir, "models/" + HybrisConstants.DEFAULT_SRC_MAIN_JAVA));
         }
         catch (IOException e)
         {

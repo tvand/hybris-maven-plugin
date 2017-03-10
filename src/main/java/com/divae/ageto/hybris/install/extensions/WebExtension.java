@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Set;
 
 import com.divae.ageto.hybris.install.extensions.binary.ExtensionBinary;
+import com.divae.ageto.hybris.utils.HybrisConstants;
 
 /**
  * Created by mhaagen on 16.08.2016.
@@ -20,7 +21,7 @@ public class WebExtension extends Extension {
 
     @Override
     public File getResourcesDirectory() {
-        return new File(getExtensionDirectory(), "src/main/webapp");
+        return new File(getExtensionDirectory(), HybrisConstants.DEFAULT_SRC_MAIN_WEBAPP);
     }
 
     public File getWebResourcesFolder() {

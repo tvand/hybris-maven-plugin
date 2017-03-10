@@ -14,6 +14,7 @@ import com.divae.ageto.hybris.install.extensions.Extension;
 import com.divae.ageto.hybris.install.task.copy.CopyDirectoryContentToDirectoryTask;
 import com.divae.ageto.hybris.install.task.copy.CopyFileToDirectoryTask;
 import com.divae.ageto.hybris.utils.EnvironmentUtils;
+import com.divae.ageto.hybris.utils.HybrisConstants;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 
@@ -44,7 +45,7 @@ public class RestructurePlatformTask extends AbstractWorkDirectoryTask {
 
     @Override
     protected void execute(final TaskContext taskContext, final File workDirectory) {
-        final File resourcesDirectory = new File("src/main/resources");
+        final File resourcesDirectory = new File(HybrisConstants.DEFAULT_SRC_MAIN_RESOURCES);
         final File hybrisInstallationDirectory = EnvironmentUtils.getHybrisInstallationDirectory();
         new TaskChainTask("restructure platform", //
                 Arrays.asList( //
@@ -56,7 +57,7 @@ public class RestructurePlatformTask extends AbstractWorkDirectoryTask {
                                     final InputStream platformExtensionsStream = ClassLoader
                                             .getSystemResourceAsStream("com/divae/ageto/hybris/install/platform.extensions.xml");
                                     FileUtils.copyInputStreamToFile(platformExtensionsStream,
-                                            new File(new File(workDirectory, "src/main/resources"), "platform.extensions.xml"));
+                                            new File(new File(workDirectory, HybrisConstants.DEFAULT_SRC_MAIN_RESOURCES), "platform.extensions.xml"));
                                 } catch (final IOException exception) {
                                     throw Throwables.propagate(exception);
                                 }

@@ -19,6 +19,7 @@ import com.divae.ageto.hybris.install.extensions.binary.ClassFolder;
 import com.divae.ageto.hybris.install.extensions.binary.ExtensionBinary;
 import com.divae.ageto.hybris.install.extensions.binary.JARArchive;
 import com.divae.ageto.hybris.install.extensions.binary.None;
+import com.divae.ageto.hybris.utils.HybrisConstants;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -87,7 +88,7 @@ public enum ExtensionFactory {
 
                 @Override
                 public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
-                    if (file.getFileName().toString().equals("extensioninfo.xml")) {
+                    if (file.getFileName().toString().equals(HybrisConstants.HYBRIS_EXTENSIONINFO_XML)) {
                         String extensionName = ExtensionInfo.getExtensionName(file.toFile());
                         Path extensionDirectory = hybrisInstallDirectory.toPath().relativize(file.getParent());
 
@@ -109,7 +110,7 @@ public enum ExtensionFactory {
         if (extensionPath == null) {
             throw new NullPointerException(extensionName);
         }
-        final File extensionInfo = new File(extensionPath.toString(), "extensioninfo.xml");
+        final File extensionInfo = new File(extensionPath.toString(), HybrisConstants.HYBRIS_EXTENSIONINFO_XML);
         if (!extensionInfo.exists()) {
             return Collections.emptySet();
         }

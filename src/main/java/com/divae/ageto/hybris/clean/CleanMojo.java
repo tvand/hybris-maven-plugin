@@ -13,9 +13,10 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.shared.utils.io.FileUtils;
 
 import com.divae.ageto.hybris.AbstractHybrisDirectoryMojo;
+import com.divae.ageto.hybris.utils.HybrisConstants;
 
 /**
- * The clean goal delete some Hybris-specific build files and directories
+ * The clean goal deletes some Hybris-specific build files and directories
  *
  * @author tv@apache.org
  */
@@ -35,7 +36,7 @@ public class CleanMojo extends AbstractHybrisDirectoryMojo
     public void execute() throws MojoExecutionException, MojoFailureException
     {
         final File touchDirectory = new File(getHybrisDirectory(), "../../temp/hybris/touch");
-        final String touchWildCard = project.getArtifactId() + "_*touch";
+        final String touchWildCard = getExtensionName() + "_*touch";
         
         try
         {
@@ -54,7 +55,7 @@ public class CleanMojo extends AbstractHybrisDirectoryMojo
             throw new MojoFailureException("Could not remove touch files from " + touchDirectory, e);
         }
         
-        final File gensrcDirectory = new File(getBaseDirectory(), "gensrc");
+        final File gensrcDirectory = new File(getBaseDirectory(), HybrisConstants.HYBRIS_GENSRC_DIRECTORY);
         if (gensrcDirectory.exists())
         {
             try

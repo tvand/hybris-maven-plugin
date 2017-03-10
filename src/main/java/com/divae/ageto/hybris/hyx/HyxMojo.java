@@ -58,19 +58,19 @@ public class HyxMojo extends AbstractHybrisDirectoryMojo
     /**
      * The source resource directory for the Hybris Extension.
      */
-    @Parameter(defaultValue = "${basedir}/resources", required = true)
+    @Parameter(property = "hybris.resourcesDirectory", defaultValue = "${basedir}/resources", required = true)
     private File hyxResourceDirectory;
 
     /**
      * The source web directory for the Hybris Extension.
      */
-    @Parameter(defaultValue = "${basedir}/web", required = true)
+    @Parameter(property = "hybris.webDirectory", defaultValue = "${basedir}/web", required = true)
     private File hyxWebDirectory;
 
     /**
      * The source hmc directory for the Hybris Extension.
      */
-    @Parameter(defaultValue = "${basedir}/hmc", required = true)
+    @Parameter(property = "hybris.hmcDirectory", defaultValue = "${basedir}/hmc", required = true)
     private File hyxHMCDirectory;
 
     /**

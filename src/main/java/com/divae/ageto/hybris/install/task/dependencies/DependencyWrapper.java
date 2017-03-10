@@ -13,24 +13,16 @@ public class DependencyWrapper extends Dependency {
     private static final long serialVersionUID = -1787586399767282279L;
     
     private final Dependency dependency;
-    private final String     artifactId;
-    private final String     groupId;
-    private final String     version;
 
     public DependencyWrapper(final Dependency dependency) {
         this.dependency = dependency;
-        this.artifactId = dependency.getArtifactId();
-        this.groupId = dependency.getGroupId();
-        this.version = dependency.getVersion();
     }
 
     public DependencyWrapper(final String groupId, final String artifactId) {
         dependency = new Dependency();
         dependency.setArtifactId(artifactId);
         dependency.setGroupId(groupId);
-        this.version = "";
-        this.artifactId = artifactId;
-        this.groupId = groupId;
+        dependency.setVersion("");
     }
 
     public DependencyWrapper(final String groupId, final String artifactId, final String version) {
@@ -38,24 +30,6 @@ public class DependencyWrapper extends Dependency {
         dependency.setArtifactId(artifactId);
         dependency.setGroupId(groupId);
         dependency.setVersion(version);
-        this.artifactId = artifactId;
-        this.groupId = groupId;
-        this.version = version;
-    }
-
-    @Override
-    public String getArtifactId() {
-        return artifactId;
-    }
-
-    @Override
-    public String getGroupId() {
-        return groupId;
-    }
-
-    @Override
-    public String getVersion() {
-        return version;
     }
 
     @Override
@@ -65,18 +39,21 @@ public class DependencyWrapper extends Dependency {
         if (o == null || getClass() != o.getClass())
             return false;
         DependencyWrapper that = (DependencyWrapper) o;
-        return Objects.equals(artifactId, that.artifactId) && Objects.equals(groupId, that.groupId)
-                && Objects.equals(version, that.version);
+        return Objects.equals(getArtifactId(), that.getArtifactId()) 
+                && Objects.equals(getGroupId(), that.getGroupId())
+                && Objects.equals(getVersion(), that.getVersion());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(artifactId, groupId, version);
+        return Objects.hash(getArtifactId(), getGroupId(), getVersion());
     }
 
     @Override
     public String toString() {
-        return "DependencyWrapper{" + "artifactId='" + artifactId + '\'' + ", groupId='" + groupId + '\'' + ", version='"
-                + version + '\'' + '}';
+        return "DependencyWrapper{" 
+                + "artifactId='" + getArtifactId() 
+                + "', groupId='" + getGroupId() 
+                + "', version='" + getVersion() + "'}";
     }
 }

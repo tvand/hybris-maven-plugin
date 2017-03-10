@@ -20,8 +20,14 @@ public abstract class AbstractHybrisDirectoryMojo extends AbstractMojo
     /**
      * The project root directory
      */
-    @Parameter(defaultValue = "${basedir}", readonly = true, required = true)
+    @Parameter(property = "hybris.projectRootDirectory", defaultValue = "${basedir}", required = true)
     private File projectRootDir;
+
+    /**
+     * The extension name
+     */
+    @Parameter(property = "hybris.extensionName", defaultValue = "${project.artifactId}", required = true)
+    private String extensionName;
 
     /**
      * Get the Hybris platform directory
@@ -41,5 +47,15 @@ public abstract class AbstractHybrisDirectoryMojo extends AbstractMojo
     protected File getBaseDirectory()
     {
         return projectRootDir;
+    }
+
+    /**
+     * Get the extension name
+     * 
+     * @return a String
+     */
+    protected String getExtensionName()
+    {
+        return extensionName;
     }
 }

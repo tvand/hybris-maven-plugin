@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import com.divae.ageto.hybris.install.extensions.binary.ExtensionBinary;
 import com.divae.ageto.hybris.install.extensions.binary.None;
+import com.divae.ageto.hybris.utils.HybrisConstants;
 import com.google.common.base.Throwables;
 
 /**
@@ -47,12 +48,12 @@ public class Extension {
     }
 
     public File getExternalDependenciesXML(final File hybrisDirectory) {
-        if (new File(hybrisDirectory, new File(baseDirectory, "external-dependencies.xml").toString()).exists()) {
-            return new File(hybrisDirectory, new File(baseDirectory, "external-dependencies.xml").toString());
+        if (new File(hybrisDirectory, new File(baseDirectory, HybrisConstants.HYBRIS_EXTERNAL_DEPENDENCIES_XML).toString()).exists()) {
+            return new File(hybrisDirectory, new File(baseDirectory, HybrisConstants.HYBRIS_EXTERNAL_DEPENDENCIES_XML).toString());
         }
         if (!(binary instanceof None)) {
-            if (new File(binary.getExtensionBinaryPath(), "external-dependencies.xml").exists()) {
-                return new File(binary.getExtensionBinaryPath(), "external-dependencies.xml");
+            if (new File(binary.getExtensionBinaryPath(), HybrisConstants.HYBRIS_EXTERNAL_DEPENDENCIES_XML).exists()) {
+                return new File(binary.getExtensionBinaryPath(), HybrisConstants.HYBRIS_EXTERNAL_DEPENDENCIES_XML);
             }
         }
         return findExternalDependenciesXML(hybrisDirectory);
@@ -64,7 +65,7 @@ public class Extension {
             Files.walkFileTree(new File(hybrisDirectory, baseDirectory.toString()).toPath(), new SimpleFileVisitor<Path>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    if (file.endsWith("external-dependencies.xml")) {
+                    if (file.endsWith(HybrisConstants.HYBRIS_EXTERNAL_DEPENDENCIES_XML)) {
                         externalDependenciesFile[0] = file.toFile();
                         return FileVisitResult.TERMINATE;
                     }
@@ -87,15 +88,15 @@ public class Extension {
     }
 
     public File getSourcesDirectory() {
-        return new File(getExtensionDirectory(), "src/main/java");
+        return new File(getExtensionDirectory(), HybrisConstants.DEFAULT_SRC_MAIN_JAVA);
     }
 
     public File getTestSourcesDirectory() {
-        return new File(getExtensionDirectory(), "src/test/java");
+        return new File(getExtensionDirectory(), HybrisConstants.DEFAULT_SRC_TEST_JAVA);
     }
 
     public File getResourcesDirectory() {
-        return new File(getExtensionDirectory(), "src/main/resources");
+        return new File(getExtensionDirectory(), HybrisConstants.DEFAULT_SRC_MAIN_RESOURCES);
     }
 
     public File getBaseDirectory() {

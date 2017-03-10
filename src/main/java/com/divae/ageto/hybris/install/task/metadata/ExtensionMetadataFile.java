@@ -14,6 +14,7 @@ import com.divae.ageto.hybris.install.extensions.binary.ClassFolder;
 import com.divae.ageto.hybris.install.extensions.binary.ExtensionBinary;
 import com.divae.ageto.hybris.install.extensions.binary.JARArchive;
 import com.divae.ageto.hybris.install.extensions.binary.None;
+import com.divae.ageto.hybris.utils.HybrisConstants;
 import com.google.common.base.Throwables;
 
 /**
@@ -32,8 +33,8 @@ public enum ExtensionMetadataFile {
             metadataFile.createNewFile();
             final Properties properties = new Properties();
 
-            properties.setProperty("extension.name", extension.getName());
-            properties.setProperty("extension.directory", extension.getBaseDirectory().toString());
+            properties.setProperty(HybrisConstants.HYBRIS_EXTENSION_NAME, extension.getName());
+            properties.setProperty(HybrisConstants.HYBRIS_EXTENSION_DIRECTORY, extension.getBaseDirectory().toString());
             addExtensionBinaryProperties(properties, extension);
             try (OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(metadataFile))) {
                 properties.store(outputStream, null);
@@ -51,8 +52,8 @@ public enum ExtensionMetadataFile {
         Properties properties = new Properties();
         try (final InputStream inputStream = new FileInputStream(metadataFile)) {
             properties.load(inputStream);
-            final String name = properties.getProperty("extension.name");
-            final File baseFile = new File(properties.getProperty("extension.directory"));
+            final String name = properties.getProperty(HybrisConstants.HYBRIS_EXTENSION_NAME);
+            final File baseFile = new File(properties.getProperty(HybrisConstants.HYBRIS_EXTENSION_DIRECTORY));
             final ExtensionBinary binary = getExtensionBinary(properties);
             return new Extension(baseFile, name, binary);
         } catch (final IOException exception) {
@@ -61,23 +62,23 @@ public enum ExtensionMetadataFile {
     }
 
     private static ExtensionBinary getExtensionBinary(final Properties properties) {
-        final String type = properties.getProperty("extension.binary.type");
+        final String type = properties.getProperty(HybrisConstants.HYBRIS_EXTENSION_BINARY_TYPE);
         if (type.equals(new None().getType())) {
             return new None();
         }
         if (type.equals(new JARArchive(new File("")).getType())) {
-            return new JARArchive(new File(properties.getProperty("extension.binary.path")));
+            return new JARArchive(new File(properties.getProperty(HybrisConstants.HYBRIS_EXTENSION_BINARY_PATH)));
         }
         if (type.equals(new ClassFolder(new File("")).getType())) {
-            return new ClassFolder(new File(properties.getProperty("extension.binary.path")));
+            return new ClassFolder(new File(properties.getProperty(HybrisConstants.HYBRIS_EXTENSION_BINARY_PATH)));
         }
         throw new RuntimeException("Invalid type: " + type);
     }
 
     private static void addExtensionBinaryProperties(final Properties config, final Extension extension) {
-        config.setProperty("extension.binary.type", extension.getBinary().getType());
+        config.setProperty(HybrisConstants.HYBRIS_EXTENSION_BINARY_TYPE, extension.getBinary().getType());
         if (extension.getBinary().getClass() != None.class) {
-            config.setProperty("extension.binary.path", extension.getBinary().getExtensionBinaryPath().toString());
+            config.setProperty(HybrisConstants.HYBRIS_EXTENSION_BINARY_PATH, extension.getBinary().getExtensionBinaryPath().toString());
         }
     }
 
